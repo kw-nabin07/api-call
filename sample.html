@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <title>Document</title>
+</head>
+    <div class="search">
+        <input type="text" placeholder="Search..">
+    </div>
+    <div id="results" class="grid-container">
+    </div>
+      
+</body>
+
+<style>
+    body{
+        width: 1000px;
+        margin: auto;
+
+    }
+    .search{
+        width: 300px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        float: right;
+        
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); 
+        grid-gap: 10px;
+        clear:both;
+    }
+    .grid-item {
+        width: 300px;
+        height: 350px;     
+        border: 1px solid #ccc;
+        padding: 10px;
+        clear:both;
+    }
+    .grid-item img{
+        margin-left: 45px;
+    }
+    .addCart{
+        float: right;
+        color: red;
+    }
+
+</style>
+<script>
+    $.ajax({
+        url: "https://dummyjson.com/products",
+        type:"GET",
+        success: function(result){
+         for(var i = 0; i<result.products.length;i++){
+            var product_brand = result.products[i].brand
+            console.log(product_brand);
+            var product_name = result.products[i].title;
+            console.log(product_name);
+            var product_price = result.products[i].price;
+            console.log(product_price);
+            var product_images1 = result.products[i].thumbnail;
+            console.log(product_images1);
+
+            var div = $('<div class="grid-item">');            
+            div.append('<img src="' + product_images1 + '" alt="Fetched Image" height= "150", width = "200">');
+            div.append('<div>' + product_name + '</div>'); 
+            div.append('<div>' + product_price + "$"+'</div>');
+            div.append('<input type="number" value="0"></input>')
+            div.append('<button id = "addToCart" class = "addCart">'+ "Add to cart" +'</button>');       
+            div.append('<button id = "addToCart" class = "buy">'+ "Buy now" +'</button>');              
+            $('#results').append(div);
+
+            }        
+        },
+        error: function() {
+        $('#results').html('<p>Error occurred while fetching data.</p>');
+    }
+
+    })
+   
+</script>
+
+</html>
